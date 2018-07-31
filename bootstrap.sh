@@ -10,4 +10,4 @@ brew install ansible \
   && echo "Ansible install successful!" \
   || echo "Ansible install failed..."
 
-ansible-playbook playbooks/workstation-osx.yaml
+ansible-playbook --ask-become-pass playbooks/workstation-osx.yaml
