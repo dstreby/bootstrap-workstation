@@ -1,0 +1,100 @@
+- hosts: 127.0.0.1
+  connection: local
+  vars:
+    shell_path: "/usr/local/bin/bash"
+  tasks:
+    - name: Get user
+      command: whoami
+      register: username
+    - debug:
+        msg: "Current user: {{ username.stdout }}"
+
+    - name: Create home directory directories
+      file:
+        path: "~/{{ item }}"
+        state: directory
+      with_items:
+        - repo-clones
+        - bin
+        - work
+        - personal
+        - vim-snips
+
+    - name: Clone git repos
+      git:
+        repo: "{{ item.repo }}"
+        dest: "{{ item.dest }}"
+        update: "{{ item.update | bool }}"
+      with_items:
+        - { repo: 'git@github.com:dstreby/dotfiles.git', dest: '~/dotfiles', update: 'yes' }
+        - { repo: 'git@github.com:dstreby/aws-env.git', dest: '~/repo-clones/aws-env', update: 'yes' }
+
+    - name: Install tools with homebrew
+      homebrew:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      with_items:
+        - { name: 'coreutils', state: 'present' }
+        - { name: 'awscli', state: 'present' }
+        - { name: 'bash', state: 'present' }
+        - { name: 'tmux', state: 'present' }
+        - { name: 'vim', state: 'present' }
+        - { name: 'exiftool', state: 'present' }
+        - { name: 'rename', state: 'present' }
+        - { name: 'htop', state: 'present' }
+        - { name: 'ipcalc', state: 'present' }
+        - { name: 'openssl', state: 'present' }
+        - { name: 'jq', state: 'present' }
+        - { name: 'tree', state: 'present' }
+        - { name: 'reattach-to-user-namespace', state: 'present' }
+        - { name: 'kubernetes-cli', state: 'present' }
+        - { name: 'kubernetes-helm', state: 'present' }
+        - { name: 'vault', state: 'present' }
+
+    - name: Tap homebrew casks
+      homebrew_tap:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      with_items:
+        - { name: 'homebrew/cask-fonts', state: 'present' }
+
+    - name: Install homebrew casks
+      homebrew_cask:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      with_items:
+        - { name: 'font-fantasque-sans-mono', state: 'installed' }
+
+    - name: Install tools with gem
+      gem:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      with_items:
+        - { name: 'tmuxinator', state: 'present' }
+
+    - name: Check shell entry exists
+      shell: "grep -q '^{{ shell_path }}$' /etc/shells"
+      register: shell_check
+      failed_when: ( shell_check.rc not in [ 0, 1 ] )
+
+    - name: Add shell entry
+      lineinfile:
+        dest: /etc/shells
+        line: "{{ shell_path }}"
+      become: yes
+      become_method: sudo
+      when: shell_check.rc == 1
+
+    - name: Set the login shell
+      command: "chsh -s {{ shell_path }} {{ username.stdout }}"
+      become: yes
+      become_method: sudo
+
+    - name: Create sym-links
+      file:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        state: link
+      with_items:
+        - { src: '~/repo-clones/aws-env/aws-env', dest: '~/bin/aws-env' }
+
