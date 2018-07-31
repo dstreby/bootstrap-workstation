@@ -34,22 +34,22 @@
         name: "{{ item.name }}"
         state: "{{ item.state }}"
       with_items:
-        - { name: 'coreutils', state: 'present' }
         - { name: 'awscli', state: 'present' }
         - { name: 'bash', state: 'present' }
-        - { name: 'tmux', state: 'present' }
-        - { name: 'vim', state: 'present' }
+        - { name: 'coreutils', state: 'present' }
         - { name: 'exiftool', state: 'present' }
-        - { name: 'rename', state: 'present' }
         - { name: 'htop', state: 'present' }
         - { name: 'ipcalc', state: 'present' }
-        - { name: 'openssl', state: 'present' }
         - { name: 'jq', state: 'present' }
-        - { name: 'tree', state: 'present' }
-        - { name: 'reattach-to-user-namespace', state: 'present' }
         - { name: 'kubernetes-cli', state: 'present' }
         - { name: 'kubernetes-helm', state: 'present' }
+        - { name: 'openssl', state: 'present' }
+        - { name: 'reattach-to-user-namespace', state: 'present' }
+        - { name: 'rename', state: 'present' }
+        - { name: 'tmux', state: 'present' }
+        - { name: 'tree', state: 'present' }
         - { name: 'vault', state: 'present' }
+        - { name: 'vim', state: 'present' }
 
     - name: Tap homebrew casks
       homebrew_tap:
