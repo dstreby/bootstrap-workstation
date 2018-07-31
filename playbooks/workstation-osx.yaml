@@ -85,10 +85,15 @@
       become_method: sudo
       when: shell_check.rc == 1
 
+    - name: Check login shell
+      command: "dscl . -read /Users/{{ username.stdout }} UserShell"
+      register: login_shell
+
     - name: Set the login shell
       command: "chsh -s {{ shell_path }} {{ username.stdout }}"
       become: yes
       become_method: sudo
+      when: login_shell.stdout.find( shell_path ) == -1
 
     - name: Create sym-links
       file:
