@@ -72,18 +72,12 @@
       with_items:
         - { name: 'tmuxinator', state: 'present' }
 
-    - name: Check shell entry exists
-      shell: "grep -q '^{{ shell_path }}$' /etc/shells"
-      register: shell_check
-      failed_when: ( shell_check.rc not in [ 0, 1 ] )
-
     - name: Add shell entry
       lineinfile:
         dest: /etc/shells
         line: "{{ shell_path }}"
       become: yes
       become_method: sudo
-      when: shell_check.rc == 1
 
     - name: Check login shell
       command: "dscl . -read /Users/{{ username.stdout }} UserShell"
