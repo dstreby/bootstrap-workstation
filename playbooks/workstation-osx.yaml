@@ -44,6 +44,7 @@
         - { name: 'kubernetes-cli', state: 'present' }
         - { name: 'kubernetes-helm', state: 'present' }
         - { name: 'openssl', state: 'present' }
+        - { name: 'platformio', state: 'present' }
         - { name: 'reattach-to-user-namespace', state: 'present' }
         - { name: 'rename', state: 'present' }
         - { name: 'tmux', state: 'present' }
@@ -64,6 +65,8 @@
         state: "{{ item.state }}"
       with_items:
         - { name: 'font-fantasque-sans-mono', state: 'installed' }
+        - { name: 'iterm2', state: 'installed' }
+        - { name: 'slack', state: 'installed' }
 
     - name: Install tools with gem
       gem:
@@ -97,3 +100,6 @@
       with_items:
         - { src: '~/repo-clones/aws-env/aws-env', dest: '~/bin/aws-env' }
 
+    - name: Install vim plugins
+      command: vim +PlugInstall +qall
+      register: vim_plugins
