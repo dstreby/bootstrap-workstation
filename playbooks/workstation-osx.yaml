@@ -14,6 +14,7 @@
         path: "~/{{ item }}"
         state: directory
       with_items:
+        - .aws
         - repo-clones
         - bin
         - work
@@ -29,6 +30,16 @@
         - { repo: 'git@github.com:dstreby/dotfiles.git', dest: '~/dotfiles', update: 'yes' }
         - { repo: 'git@github.com:dstreby/aws-env.git', dest: '~/repo-clones/aws-env', update: 'yes' }
 
+    - name: Tap Homebrew repositories
+      homebrew_tap:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      with_items:
+        - { name: 'domt4/chromium', state: 'present' }
+        - { name: 'homebrew/cask-fonts', state: 'present' }
+        - { name: 'homebrew/cask-versions', state: 'present' }
+        - { name: 'johanhaleby/kubetail', state: 'present' }
+
     - name: Install tools with homebrew
       homebrew:
         name: "{{ item.name }}"
@@ -36,36 +47,44 @@
       with_items:
         - { name: 'awscli', state: 'present' }
         - { name: 'bash', state: 'present' }
+        - { name: 'bat', state: 'present' }
+        - { name: 'calc', state: 'present' }
         - { name: 'coreutils', state: 'present' }
         - { name: 'exiftool', state: 'present' }
+        - { name: 'ffmpeg', state: 'present' }
+        - { name: 'fzf', state: 'present' }
+        - { name: 'gnu-sed', state: 'present' }
+        - { name: 'graphviz', state: 'present' }
         - { name: 'htop', state: 'present' }
+        - { name: 'imagemagick', state: 'present' }
         - { name: 'ipcalc', state: 'present' }
         - { name: 'jq', state: 'present' }
         - { name: 'kubernetes-cli', state: 'present' }
         - { name: 'kubernetes-helm', state: 'present' }
+        - { name: 'kubetail', state: 'present' }
+        - { name: 'libav', state: 'present' }
+        - { name: 'lynx', state: 'present' }
         - { name: 'openssl', state: 'present' }
         - { name: 'platformio', state: 'present' }
+        - { name: 'poppler', state: 'present' }
         - { name: 'reattach-to-user-namespace', state: 'present' }
         - { name: 'rename', state: 'present' }
+        - { name: 'terraform', state: 'present' }
         - { name: 'tmux', state: 'present' }
         - { name: 'tree', state: 'present' }
         - { name: 'vault', state: 'present' }
         - { name: 'vim', state: 'present' }
-
-    - name: Tap homebrew casks
-      homebrew_tap:
-        name: "{{ item.name }}"
-        state: "{{ item.state }}"
-      with_items:
-        - { name: 'homebrew/cask-fonts', state: 'present' }
+        - { name: 'wget', state: 'present' }
 
     - name: Install homebrew casks
       homebrew_cask:
         name: "{{ item.name }}"
         state: "{{ item.state }}"
       with_items:
+        - { name: 'docker-edge', state: 'installed' }
         - { name: 'font-fantasque-sans-mono', state: 'installed' }
         - { name: 'iterm2', state: 'installed' }
+        - { name: 'mac-chromium', state: 'installed' }
         - { name: 'slack', state: 'installed' }
 
     - name: Install tools with gem
@@ -74,6 +93,12 @@
         state: "{{ item.state }}"
       with_items:
         - { name: 'tmuxinator', state: 'present' }
+
+    - name: Install virtual-env
+      pip:
+        name: virtualenv
+      become: yes
+      become_method: sudo
 
     - name: Add shell entry
       lineinfile:
