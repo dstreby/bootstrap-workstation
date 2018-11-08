@@ -49,6 +49,7 @@
         - { name: 'bash', state: 'present' }
         - { name: 'bat', state: 'present' }
         - { name: 'calc', state: 'present' }
+        - { name: 'cli53', state: 'present' }
         - { name: 'coreutils', state: 'present' }
         - { name: 'exiftool', state: 'present' }
         - { name: 'ffmpeg', state: 'present' }
@@ -62,13 +63,16 @@
         - { name: 'kubernetes-cli', state: 'present' }
         - { name: 'kubernetes-helm', state: 'present' }
         - { name: 'kubetail', state: 'present' }
+        - { name: 'ldns', state: 'present' }
         - { name: 'libav', state: 'present' }
         - { name: 'lynx', state: 'present' }
         - { name: 'openssl', state: 'present' }
         - { name: 'platformio', state: 'present' }
         - { name: 'poppler', state: 'present' }
+        - { name: 'pstree', state: 'present' }
         - { name: 'reattach-to-user-namespace', state: 'present' }
         - { name: 'rename', state: 'present' }
+        - { name: 'telnet', state: 'present' }
         - { name: 'terraform', state: 'present' }
         - { name: 'tmux', state: 'present' }
         - { name: 'tree', state: 'present' }
@@ -81,6 +85,7 @@
         name: "{{ item.name }}"
         state: "{{ item.state }}"
       with_items:
+        - { name: 'authy', state: 'installed' }
         - { name: 'docker-edge', state: 'installed' }
         - { name: 'font-fantasque-sans-mono', state: 'installed' }
         - { name: 'iterm2', state: 'installed' }
