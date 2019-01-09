@@ -15,7 +15,7 @@
         state: directory
       with_items:
         - .aws
-        - repo-clones
+        - src
         - bin
         - work
         - personal
@@ -28,7 +28,7 @@
         update: "{{ item.update | bool }}"
       with_items:
         - { repo: 'git@github.com:dstreby/dotfiles.git', dest: '~/dotfiles', update: 'yes' }
-        - { repo: 'git@github.com:dstreby/aws-env.git', dest: '~/repo-clones/aws-env', update: 'yes' }
+        - { repo: 'git@github.com:dstreby/aws-env.git', dest: '~/src/aws-env', update: 'yes' }
 
     - name: Tap Homebrew repositories
       homebrew_tap:
@@ -50,6 +50,7 @@
         - { name: 'bat', state: 'present' }
         - { name: 'calc', state: 'present' }
         - { name: 'cli53', state: 'present' }
+        - { name: 'cloc', state: 'present' }
         - { name: 'coreutils', state: 'present' }
         - { name: 'exiftool', state: 'present' }
         - { name: 'ffmpeg', state: 'present' }
@@ -69,7 +70,9 @@
         - { name: 'openssl', state: 'present' }
         - { name: 'platformio', state: 'present' }
         - { name: 'poppler', state: 'present' }
+        - { name: 'protobuf', state: 'present' }
         - { name: 'pstree', state: 'present' }
+        - { name: 'pwgen', state: 'present' }
         - { name: 'reattach-to-user-namespace', state: 'present' }
         - { name: 'rename', state: 'present' }
         - { name: 'telnet', state: 'present' }
@@ -91,6 +94,7 @@
         - { name: 'iterm2', state: 'installed' }
         - { name: 'mac-chromium', state: 'installed' }
         - { name: 'slack', state: 'installed' }
+        - { name: 'wireshark', state: 'installed' }
 
     - name: Install tools with gem
       gem:
@@ -128,7 +132,7 @@
         dest: "{{ item.dest }}"
         state: link
       with_items:
-        - { src: '~/repo-clones/aws-env/aws-env', dest: '~/bin/aws-env' }
+        - { src: '~/src/aws-env/aws-env', dest: '~/bin/aws-env' }
 
     - name: Install vim plugins
       command: vim +PlugInstall +qall
