@@ -61,6 +61,7 @@
         - { name: 'gnu-sed', state: 'present' }
         - { name: 'graphviz', state: 'present' }
         - { name: 'htop', state: 'present' }
+        - { name: 'hub', state: 'present' }
         - { name: 'imagemagick', state: 'present' }
         - { name: 'ipcalc', state: 'present' }
         - { name: 'jq', state: 'present' }
@@ -70,9 +71,11 @@
         - { name: 'ldns', state: 'present' }
         - { name: 'libav', state: 'present' }
         - { name: 'lynx', state: 'present' }
+        - { name: 'node', state: 'present' }
         - { name: 'openssl', state: 'present' }
         - { name: 'platformio', state: 'present' }
         - { name: 'poppler', state: 'present' }
+        - { name: 'postgres', state: 'present' }
         - { name: 'protobuf', state: 'present' }
         - { name: 'pstree', state: 'present' }
         - { name: 'pwgen', state: 'present' }
@@ -139,6 +142,11 @@
         state: link
       with_items:
         - { src: '~/src/aws-env/aws-env', dest: '~/bin/aws-env' }
+
+    - name: Enable atrun daemon
+      command: launchctl load -w /System/Library/LaunchDaemons/com.apple.atrun.plist
+      become: yes
+      become_method: sudo
 
     - name: Install vim plugins
       command: vim +PlugInstall +qall
