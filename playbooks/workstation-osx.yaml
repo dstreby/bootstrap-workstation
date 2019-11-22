@@ -49,10 +49,12 @@
         - { name: 'awscli', state: 'present' }
         - { name: 'aws-sam-cli', state: 'present' }
         - { name: 'bash', state: 'present' }
+        - { name: 'bash-completion', state: 'present' }
         - { name: 'bat', state: 'present' }
         - { name: 'calc', state: 'present' }
         - { name: 'cli53', state: 'present' }
         - { name: 'cloc', state: 'present' }
+        - { name: 'consul-template', state: 'present' }
         - { name: 'coreutils', state: 'present' }
         - { name: 'exiftool', state: 'present' }
         - { name: 'ffmpeg', state: 'present' }
@@ -68,6 +70,7 @@
         - { name: 'kubernetes-cli', state: 'present' }
         - { name: 'kubernetes-helm', state: 'present' }
         - { name: 'kubetail', state: 'present' }
+        - { name: 'kustomize', state: 'present' }
         - { name: 'ldns', state: 'present' }
         - { name: 'libav', state: 'present' }
         - { name: 'lynx', state: 'present' }
@@ -81,8 +84,10 @@
         - { name: 'pwgen', state: 'present' }
         - { name: 'reattach-to-user-namespace', state: 'present' }
         - { name: 'rename', state: 'present' }
+        - { name: 'shellcheck', state: 'present' }
         - { name: 'telnet', state: 'present' }
         - { name: 'terraform', state: 'present' }
+        - { name: 'tflint', state: 'present' }
         - { name: 'tmux', state: 'present' }
         - { name: 'tree', state: 'present' }
         - { name: 'vault', state: 'present' }
