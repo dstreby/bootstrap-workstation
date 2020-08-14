@@ -19,6 +19,7 @@
         - bin
         - work
         - personal
+        - screenshots
         - vim-snips
 
     - name: Clone git repos
@@ -56,6 +57,7 @@
         - { name: 'cloc', state: 'present' }
         - { name: 'consul-template', state: 'present' }
         - { name: 'coreutils', state: 'present' }
+        - { name: 'docker-credential-helper-ecr', state: 'present' }
         - { name: 'exiftool', state: 'present' }
         - { name: 'ffmpeg', state: 'present' }
         - { name: 'fzf', state: 'present' }
@@ -90,6 +92,7 @@
         - { name: 'tflint', state: 'present' }
         - { name: 'tmux', state: 'present' }
         - { name: 'tree', state: 'present' }
+        - { name: 'unix2dos', state: 'present' }
         - { name: 'vault', state: 'present' }
         - { name: 'vim', state: 'present' }
         - { name: 'wget', state: 'present' }
@@ -103,6 +106,7 @@
         - { name: 'authy', state: 'installed' }
         - { name: 'docker-edge', state: 'installed' }
         - { name: 'font-fantasque-sans-mono', state: 'installed' }
+        - { name: 'font-fira-code', state: 'installed' }
         - { name: 'iterm2', state: 'installed' }
         - { name: 'keybase', state: 'installed' }
         - { name: 'mac-chromium', state: 'installed' }
@@ -147,6 +151,10 @@
         state: link
       with_items:
         - { src: '~/src/aws-env/aws-env', dest: '~/bin/aws-env' }
+
+    - name: Set OSX screenshots directory
+      command: "[[ -d ~/screenshots ]] && defaults write com.apple.screencapture location ~/screenshots/"
+      register: set_screenshots
 
     - name: Enable atrun daemon
       command: launchctl load -w /System/Library/LaunchDaemons/com.apple.atrun.plist
